@@ -24,6 +24,7 @@ public class GamePanel extends JPanel implements Runnable {
   OptionsMenu optionsMenu;
   CardLayout cardLayout = new CardLayout();
   JPanel cards = new JPanel(cardLayout);
+  final int FPS = 60;
   
   // No params in the constructor
   /**
@@ -76,10 +77,39 @@ public class GamePanel extends JPanel implements Runnable {
    * The main game loop that updates the game state and repaints the panel.
    */
   public void run(){
+    double drawInterval = (double) 1000 / FPS;
+    double nextDrawTime = System.currentTimeMillis() + drawInterval;
+    long timer = 0;
+    int drawCount = 0;
+    long startTime = System.currentTimeMillis();
+    int frames = 0;
+    
     while (gameThread != null){
       update();
       repaint();
       revalidate();
+      
+      frames++;
+      
+      if (System.currentTimeMillis() - startTime >= 1000) {
+        mainMenu.setTextArea("FPS: " + frames); // Print the FPS
+        frames = 0; // Reset frame count for the next second
+        startTime = System.currentTimeMillis(); // Reset the start time for the next second
+      }
+      
+      try {
+        double remainingTime = nextDrawTime - System.currentTimeMillis();
+        
+        if (remainingTime < 0) {
+          remainingTime = 0;
+        }
+        
+        Thread.sleep((long) remainingTime);
+        nextDrawTime += drawInterval;
+        
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
   public void update(){
@@ -95,4 +125,3 @@ public class GamePanel extends JPanel implements Runnable {
   }
   
 }
-
