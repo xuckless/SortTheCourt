@@ -15,15 +15,12 @@ public class GameScreenOne extends JPanel {
    * GameScreenOne represents a specific game screen within the application.
    * It extends JPanel and contains elements like buttons and text areas for game interaction.
    */
-  private JPanel choicesPanel;
+  ChoicesPanel choicesPanel;
   
   public GameScreenOne(){
     
     optionsMenu = new OptionsMenu();
-    choicesPanel = new JPanel();
-    this.add(choicesPanel, createGridBagConstraints(0, 5, GridBagConstraints.REMAINDER,
-      GridBagConstraints.REMAINDER, GridBagConstraints.BOTH, GridBagConstraints.CENTER,1,
-      1, new Insets(5, 5, 5, 5)));
+    
     
     this.setLayout(new GridBagLayout());
     this.setBackground(Color.GREEN);
@@ -37,6 +34,7 @@ public class GameScreenOne extends JPanel {
     this.addStartLabel();
     this.addTextField();
     this.addTextBoxTwo();
+    this.addChoicesPanel();
     
     
     this.revalidate();
@@ -68,23 +66,43 @@ public class GameScreenOne extends JPanel {
     startLabel = new JLabel("Game Screen 1", JLabel.CENTER);
     this.add(startLabel, createGridBagConstraints(0, 1, GridBagConstraints.REMAINDER,
       1, GridBagConstraints.HORIZONTAL, GridBagConstraints.SOUTH,0,
-      0, new Insets(5, 5, 0, 0)));
+      0, new Insets(5, 5, 50, 0)));
   }
   
   private void addTextField(){
     consoleGameExtension = new JTextArea();
+    consoleGameExtension.setText("Text area 1");
     consoleGameExtension.setEditable(false);
-    this.add(consoleGameExtension, createGridBagConstraints(0, 3, GridBagConstraints.REMAINDER,
-      1, GridBagConstraints.HORIZONTAL, GridBagConstraints.SOUTH,0,
-      0, new Insets(5, 5, 5, 5)));
+    this.add(consoleGameExtension, createGridBagConstraints(0, 2, 2,
+      1, GridBagConstraints.BOTH, GridBagConstraints.CENTER,1,
+      0.8, new Insets(5, 5, 35, 5)));
+    //0.8
   }
+  
+  
+//  GridBagConstraints.REMAINDER
   
   private void addTextBoxTwo(){
     textBoxTwo = new JTextArea();
+    textBoxTwo.setText("Text area 2");
     textBoxTwo.setEditable(false);
-    this.add(textBoxTwo, createGridBagConstraints(0, 4, GridBagConstraints.REMAINDER,
-      1, GridBagConstraints.HORIZONTAL, GridBagConstraints.SOUTH,0,
-      0, new Insets(5, 5, 5, 5)));
+    this.add(textBoxTwo, createGridBagConstraints(0, 3, GridBagConstraints.REMAINDER,
+      1, GridBagConstraints.BOTH, GridBagConstraints.SOUTH,2,
+      3, new Insets(5, 5, 5, 5)));
+    //3
+  }
+  
+  private void addChoicesPanel(){
+    choicesPanel = new ChoicesPanel();
+    
+    
+    
+    this.add(choicesPanel, createGridBagConstraints(0, 4, 1,
+     1, GridBagConstraints.BOTH, GridBagConstraints.CENTER,1,
+      0.8, new Insets(5, 5, 5, 5)));
+    
+    this.revalidate();
+    this.repaint();
   }
   
   /**
@@ -127,7 +145,9 @@ public class GameScreenOne extends JPanel {
   public void addChoiceButton(String buttonText, ActionListener actionListener) {
     JButton button = new JButton(buttonText);
     button.addActionListener(actionListener);
-    choicesPanel.add(button);
+    choicesPanel.add(button, createGridBagConstraints(0, GridBagConstraints.RELATIVE, GridBagConstraints.REMAINDER,
+      GridBagConstraints.REMAINDER, GridBagConstraints.HORIZONTAL, GridBagConstraints.REMAINDER,1,
+      1, new Insets(5, 5, 5, 5)));
     choicesPanel.revalidate();
     choicesPanel.repaint();
   }
