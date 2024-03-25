@@ -84,6 +84,8 @@ public class GamePanel extends JPanel implements Runnable {
     long startTime = System.currentTimeMillis();
     int frames = 0;
     
+    SortTheCourtButEpicVersion.gameLogicCall();
+    
     while (gameThread != null){
       update();
       repaint();
@@ -98,8 +100,6 @@ public class GamePanel extends JPanel implements Runnable {
       }
       
       try {
-        
-        SortTheCourtButEpicVersion.gameLogicCall();
         
         double remainingTime = nextDrawTime - System.currentTimeMillis();
         
