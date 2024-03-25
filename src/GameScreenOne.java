@@ -6,10 +6,11 @@ public class GameScreenOne extends JPanel {
   private JLabel startLabel;
   private JButton optionsButton;
   
-  private JTextArea consoleGameExtension;
+  private static JTextArea consoleGameExtension;
   
   private JTextArea textBoxTwo;
   OptionsMenu optionsMenu;
+  
   
   /**
    * GameScreenOne represents a specific game screen within the application.
@@ -29,13 +30,11 @@ public class GameScreenOne extends JPanel {
     this.setVisible(true);
     this.setDoubleBuffered(true);
     
-    
     this.addOptionsButton();
     this.addStartLabel();
     this.addTextField();
     this.addTextBoxTwo();
     this.addChoicesPanel();
-    
     
     this.revalidate();
     this.repaint();
@@ -88,7 +87,7 @@ public class GameScreenOne extends JPanel {
     textBoxTwo.setEditable(false);
     this.add(textBoxTwo, createGridBagConstraints(0, 3, GridBagConstraints.REMAINDER,
       1, GridBagConstraints.BOTH, GridBagConstraints.SOUTH,2,
-      3, new Insets(5, 5, 5, 5)));
+      1, new Insets(5, 5, 50, 5)));
     //3
   }
   
@@ -109,8 +108,8 @@ public class GameScreenOne extends JPanel {
    * Sets a message in the first text area.
    * @param extension The message to display.
    */
-  public void setMessageOne(String extension){
-    this.consoleGameExtension.setText(extension);
+  public static void setMessageOne(String extension){
+    consoleGameExtension.setText(extension);
   }
   
   /**
@@ -118,7 +117,7 @@ public class GameScreenOne extends JPanel {
    * @param extension The message to append.
    */
   public void appendMessageOne(String extension){
-    this.consoleGameExtension.append(extension);
+    consoleGameExtension.append(extension);
   }
   
   /**

@@ -76,6 +76,14 @@ public class MainMenu extends JPanel {
       new Insets(5,5,5,5)));
   }
   
+  public void updateTextArea(String str){
+    this.textArea.append(str);
+  }
+  
+  public void setTextArea(String str){
+    this.textArea.setText(str);
+  }
+  
   private GridBagConstraints createGridBagConstraints(int gridx, int gridy, int gridwidth,
                                                       int gridheight, int fill, double weightx,
                                                       double weighty, Insets insets) {

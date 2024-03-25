@@ -98,6 +98,9 @@ public class GamePanel extends JPanel implements Runnable {
       }
       
       try {
+        
+        SortTheCourtButEpicVersion.gameLogicCall();
+        
         double remainingTime = nextDrawTime - System.currentTimeMillis();
         
         if (remainingTime < 0) {
@@ -125,3 +128,4 @@ public class GamePanel extends JPanel implements Runnable {
   }
   
 }
+
