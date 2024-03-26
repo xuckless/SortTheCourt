@@ -84,7 +84,13 @@ public class GamePanel extends JPanel implements Runnable {
     long startTime = System.currentTimeMillis();
     int frames = 0;
     
+    
     SortTheCourtButEpicVersion.gameLogicCall();
+//    try {
+//      Tester.Main();
+//    } catch (InterruptedException e) {
+//      throw new RuntimeException(e);
+//    }
     
     while (gameThread != null){
       update();
@@ -116,7 +122,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
   }
   public void update(){
-  
+    GameScreenOne.consoleGameExtension.repaint();
+    GameScreenOne.consoleGameExtension.revalidate();
+    GameScreenOne.textBoxTwo.repaint();
+    GameScreenOne.textBoxTwo.revalidate();
   }
   
   /**

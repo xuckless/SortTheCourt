@@ -678,8 +678,6 @@ public class SortTheCourtButEpicVersion {
                         }
                     }
 
-
-
                     break;
                 default:
                     System.out.println("Error with choice separation and processing.");

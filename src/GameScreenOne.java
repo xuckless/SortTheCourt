@@ -1,14 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+
+
+// there are some problems in this code where the text boxes arent updating as they should be
+// I have created a template of input that is working.
 
 public class GameScreenOne extends JPanel {
   private JLabel startLabel;
   private JButton optionsButton;
   
-  private static JTextArea consoleGameExtension;
+  protected static JTextArea consoleGameExtension;
   
-  private JTextArea textBoxTwo;
+  protected static JTextArea textBoxTwo;
   OptionsMenu optionsMenu;
   
   
@@ -16,12 +22,10 @@ public class GameScreenOne extends JPanel {
    * GameScreenOne represents a specific game screen within the application.
    * It extends JPanel and contains elements like buttons and text areas for game interaction.
    */
-  ChoicesPanel choicesPanel;
+  static ChoicesPanel choicesPanel;
   
   public GameScreenOne(){
-    
     optionsMenu = new OptionsMenu();
-    
     
     this.setLayout(new GridBagLayout());
     this.setBackground(Color.GREEN);
@@ -70,7 +74,6 @@ public class GameScreenOne extends JPanel {
   
   private void addTextField(){
     consoleGameExtension = new JTextArea();
-    consoleGameExtension.setText("Text area 1");
     consoleGameExtension.setEditable(false);
     this.add(consoleGameExtension, createGridBagConstraints(0, 2, 2,
       1, GridBagConstraints.BOTH, GridBagConstraints.CENTER,1,
@@ -83,11 +86,11 @@ public class GameScreenOne extends JPanel {
   
   private void addTextBoxTwo(){
     textBoxTwo = new JTextArea();
-    textBoxTwo.setText("Text area 2");
     textBoxTwo.setEditable(false);
+    
     this.add(textBoxTwo, createGridBagConstraints(0, 3, GridBagConstraints.REMAINDER,
       1, GridBagConstraints.BOTH, GridBagConstraints.SOUTH,2,
-      1, new Insets(5, 5, 50, 5)));
+      3, new Insets(5, 5, 50, 5)));
     //3
   }
   
@@ -109,44 +112,62 @@ public class GameScreenOne extends JPanel {
    * @param extension The message to display.
    */
   public static void setMessageOne(String extension){
-    consoleGameExtension.setText(extension);
+    SwingUtilities.invokeLater(() -> {
+      consoleGameExtension.setText(extension);
+      consoleGameExtension.repaint();
+      consoleGameExtension.revalidate();
+    });
   }
   
   /**
    * Appends a message to the first text area.
    * @param extension The message to append.
    */
-  public void appendMessageOne(String extension){
-    consoleGameExtension.append(extension);
+  public static void appendMessageOne(String extension){
+    SwingUtilities.invokeLater(() -> {
+      consoleGameExtension.append(extension);
+      consoleGameExtension.repaint();
+      consoleGameExtension.revalidate();
+    });
   }
   
   /**
    * Sets a message in the second text area.
    * @param extension The message to display.
    */
-  public void setMessageTwo(String extension){
-    this.textBoxTwo.setText(extension);
+  public static void setMessageTwo(String extension){
+    SwingUtilities.invokeLater(() -> {
+      textBoxTwo.setText(extension);
+      textBoxTwo.repaint();
+      textBoxTwo.revalidate();
+    });
   }
   
   /**
    * Appends a message to the second text area.
    * @param extension The message to append.
    */
-  public void appendMessageTwo(String extension){
-    this.textBoxTwo.append(extension);
+  public static void appendMessageTwo(String extension){
+    SwingUtilities.invokeLater(() -> {
+      textBoxTwo.append(extension);
+      textBoxTwo.repaint();
+      textBoxTwo.revalidate();
+    });
   }
+  
   
   /**
    * Adds a choice button to the panel with a specific action.
    * @param buttonText The text of the button.
-   * @param actionListener The action to perform when the button is clicked.
    */
-  public void addChoiceButton(String buttonText, ActionListener actionListener) {
+  public static JButton createChoiceButton(String buttonText) {
     JButton button = new JButton(buttonText);
+    return button;
+  }
+  
+  public static void addChoiceButton(JButton button, ActionListener actionListener){
     button.addActionListener(actionListener);
-    choicesPanel.add(button, createGridBagConstraints(0, GridBagConstraints.RELATIVE, GridBagConstraints.REMAINDER,
-      GridBagConstraints.REMAINDER, GridBagConstraints.HORIZONTAL, GridBagConstraints.REMAINDER,1,
-      1, new Insets(5, 5, 5, 5)));
+    choicesPanel.add(button);
     choicesPanel.revalidate();
     choicesPanel.repaint();
   }
@@ -154,8 +175,14 @@ public class GameScreenOne extends JPanel {
   /**
    * Clears all choice buttons from the panel.
    */
-  public void clearChoiceButtons() {
+  public static void clearChoiceButtons() {
     choicesPanel.removeAll();
+    choicesPanel.revalidate();
+    choicesPanel.repaint();
+  }
+  
+  public static void clearButton(JButton button) {
+    choicesPanel.remove(button);
     choicesPanel.revalidate();
     choicesPanel.repaint();
   }
@@ -177,5 +204,27 @@ public class GameScreenOne extends JPanel {
     gbc.weighty = weighty; // How to distribute extra vertical space
     gbc.insets = insets; // External padding
     return gbc;
+  }
+  
+  private static GridBagConstraints createGridBagConstraints2(int gridx, int gridy,
+                                                      int gridwidth, int gridheight,
+                                                      int fill, int anchor,
+                                                      double weightx, double weighty,
+                                                      Insets insets) {
+    
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.gridx = gridx; // X position
+    gbc.gridy = gridy; // Y position
+    gbc.gridwidth = gridwidth; // Number of columns to span
+    gbc.gridheight = gridheight; // Number of rows to span
+    gbc.fill = fill; // Fill behavior
+    gbc.anchor = anchor; // Anchoring behavior
+    gbc.weightx = weightx; // How to distribute extra horizontal space
+    gbc.weighty = weighty; // How to distribute extra vertical space
+    gbc.insets = insets; // External padding
+    return gbc;
+  }
+  
+  private static void refreshScreen(){
   }
 }

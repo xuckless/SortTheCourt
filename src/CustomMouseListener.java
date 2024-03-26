@@ -9,6 +9,9 @@ public class CustomMouseListener implements MouseListener {
   public CustomMouseListener(JTextArea textArea) {
     this.textArea = textArea;
   }
+  public CustomMouseListener(){
+  
+  }
   
   boolean isClicked = false;
   boolean isSelected = false;
