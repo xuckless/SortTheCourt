@@ -71,6 +71,7 @@ class ConsoleGame {
         GameScreenOne.setMessageOne("Starting New Game...");
         GameScreenOne.setMessageTwo(formatText("You awake to an abyss of nothingness all around. 'Ah, little light,' a voice called, but you could not see the speaker. 'Do not worry, little light, your reaction is normal. We're going to try the plan again. Just do not forget your task: Keep the reality on the desired path. Keep the kingdom from collapse. Are you ready to continue?'"));
         GameScreenOne.addChoiceButton(yesContinue, i->{
+          GameScreenOne.clearButton(yesContinue);
           ConsoleGame.StartPart1(filePath, scenarioTxtFilePath, true);
         });
       }
