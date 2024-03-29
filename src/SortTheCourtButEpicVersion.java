@@ -15,9 +15,9 @@ public class SortTheCourtButEpicVersion {
         
         ConsoleGame consoleGame = new ConsoleGame();
 
-        consoleGame.StartGame("SAVEDATA.txt", "Scenarios.txt");
+        //consoleGame.StartGame("SAVEDATA.txt", "Scenarios.txt");
 
-        //ConsoleGame.StartGame("src/main/java/SAVEDATA.txt", "src/main/java/Scenarios.txt");
+        consoleGame.StartGame("src/SAVEDATA.txt", "src/Scenarios.txt");
 
     }
 
@@ -223,6 +223,9 @@ public class SortTheCourtButEpicVersion {
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
         }
+
+        //System.out.println(concatenatedText);
+        //System.exit(0);
 
         String scenariosAsString = concatenatedText.toString();
         String[] parts = scenariosAsString.split("\\|");
