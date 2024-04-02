@@ -21,7 +21,7 @@ public class MainMenu extends JPanel {
   
   private void packageScreen(){
     this.setLayout(new GridBagLayout());
-    this.setBackground(Color.WHITE);
+    this.setBackground(null);
     this.setPreferredSize(new Dimension(GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT));
     this.setOpaque(true);
     this.setVisible(true);
@@ -71,9 +71,9 @@ public class MainMenu extends JPanel {
     textArea.setBackground(Color.LIGHT_GRAY);
     textArea.setForeground(Color.BLACK);
     
-    this.add(textArea, createGridBagConstraints(0,2,2,
-      1, GridBagConstraints.BOTH, 1,1,
-      new Insets(5,5,5,5)));
+    this.add(this.textArea, createGridBagConstraints(0, 0,
+      1, 1, GridBagConstraints.NONE, GridBagConstraints.NORTHWEST,
+      0, 0, new Insets(5, 5, 0, 0)));
   }
   
   public void updateTextArea(String str){
@@ -98,5 +98,28 @@ public class MainMenu extends JPanel {
     gbc.insets = insets;
     return gbc;
   }
-  
+  private GridBagConstraints createGridBagConstraints(int gridx, int gridy,
+                                                      int gridwidth, int gridheight,
+                                                      int fill, int anchor,
+                                                      double weightx, double weighty,
+                                                      Insets insets) {
+    
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.gridx = gridx; // X position
+    gbc.gridy = gridy; // Y position
+    gbc.gridwidth = gridwidth; // Number of columns to span
+    gbc.gridheight = gridheight; // Number of rows to span
+    gbc.fill = fill; // Fill behavior
+    gbc.anchor = anchor; // Anchoring behavior
+    gbc.weightx = weightx; // How to distribute extra horizontal space
+    gbc.weighty = weighty; // How to distribute extra vertical space
+    gbc.insets = insets; // External padding
+    return gbc;
+  }
+  protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    if (GamePanel.backgroundImage != null) {
+      g.drawImage(GamePanel.backgroundImage, 0, 0, GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT, this);
+    }
+  }
 }

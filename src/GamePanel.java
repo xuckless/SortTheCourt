@@ -26,11 +26,19 @@ public class GamePanel extends JPanel implements Runnable {
   JPanel cards = new JPanel(cardLayout);
   final int FPS = 60;
   
+  static Image backgroundImage = new ImageIcon("resources/Background.png").getImage();
+  
   // No params in the constructor
   /**
    * Initializes the game panel by loading screens and setting up the layout.
    */
   public GamePanel(){
+//    try {
+//
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//      System.err.println("Failed to load background image.");
+//    }
     this.addScreenImports();
     this.packageScreen();
   }
@@ -134,5 +142,11 @@ public class GamePanel extends JPanel implements Runnable {
    */
   public void switchPanels(String cardName){
     cardLayout.show(cards, cardName);
+  }
+  protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    if (backgroundImage != null) {
+      g.drawImage(backgroundImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, this);
+    }
   }
 }

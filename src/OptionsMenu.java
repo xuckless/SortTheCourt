@@ -88,4 +88,10 @@ public class OptionsMenu extends JPanel {
     gbc.insets = insets; // External padding
     return gbc;
   }
+  protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    if (GamePanel.backgroundImage != null) {
+      g.drawImage(GamePanel.backgroundImage, 0, 0, GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT, this);
+    }
+  }
 }

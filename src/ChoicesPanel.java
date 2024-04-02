@@ -7,6 +7,7 @@ public class ChoicesPanel extends JPanel {
     this.setLayout(new FlowLayout());
     this.setVisible(true);
     this.setOpaque(true);
-    this.setBackground(Color.BLACK);
+    this.setBackground(null);
   }
+  
 }

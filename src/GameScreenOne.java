@@ -1,10 +1,8 @@
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
 
 
 public class GameScreenOne extends JPanel {
@@ -25,7 +23,7 @@ public class GameScreenOne extends JPanel {
     optionsMenu = new OptionsMenu();
     
     this.setLayout(new GridBagLayout());
-    this.setBackground(Color.GREEN);
+    this.setBackground(Color.BLACK);
     this.setPreferredSize(new Dimension(GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT));
     this.setOpaque(true);
     this.setVisible(true);
@@ -77,6 +75,8 @@ public class GameScreenOne extends JPanel {
     consoleGameExtension = new JTextPane();
     consoleGameExtension.setEditable(false);
     JScrollPane scrollPane = new JScrollPane(consoleGameExtension);
+//    this.setDefaultTextStyle(consoleGameExtension, loadCustomFont("src/Philosopher-Regular.ttf", 25));
+    this.changeTextStyle(consoleGameExtension, "Serif", Font.PLAIN, 100);
     this.add(scrollPane, createGridBagConstraints(0, 2, 2,
       1, GridBagConstraints.BOTH, GridBagConstraints.CENTER, 1,
       3, new Insets(5, 5, 35, 5)));
@@ -103,6 +103,55 @@ public class GameScreenOne extends JPanel {
     
     this.revalidate();
     this.repaint();
+  }
+  
+  private Font loadCustomFont(String pathToFont, float size) {
+    Font customFont = null;
+    try {
+      // Note: getClass().getResourceAsStream works if the font is within your project's resources
+      InputStream is = getClass().getResourceAsStream(pathToFont);
+      customFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(size);
+      
+      if (is == null) {
+        throw new RuntimeException("Font not found at specified path.");
+      }
+      
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.err.println("Failed to load custom font: " + pathToFont);
+    }
+    return customFont;
+  }
+  
+  private void setDefaultTextStyle(JTextPane textPane, Font font) {
+    if (font != null) {
+      // Apply the font to the JTextPane
+      textPane.setFont(font);
+      
+      // Optionally set other character attributes
+//      MutableAttributeSet attrs = new SimpleAttributeSet();
+//      StyleConstants.setFontFamily(attrs, font.getFamily());
+//      StyleConstants.setFontSize(attrs, font.getSize());
+//      StyleConstants.setBold(attrs, (font.getStyle() & Font.BOLD) != 0);
+//      StyleConstants.setItalic(attrs, (font.getStyle() & Font.ITALIC) != 0);
+      
+//      textPane.setCharacterAttributes(attrs, false);
+    } else {
+      System.err.println("Custom font is null. Check the font path and file.");
+    }
+  }
+  
+  private void changeTextStyle(JTextPane textPane, String fontName, int fontStyle, int fontSize) {
+    StyledDocument doc = textPane.getStyledDocument();
+    MutableAttributeSet attrs = new SimpleAttributeSet();
+    
+    StyleConstants.setFontFamily(attrs, fontName);
+    StyleConstants.setFontSize(attrs, fontSize);
+    StyleConstants.setBold(attrs, (fontStyle & Font.BOLD) != 0);
+    StyleConstants.setItalic(attrs, (fontStyle & Font.ITALIC) != 0);
+    
+    // Apply the attributes to all text
+    doc.setCharacterAttributes(0, doc.getLength(), attrs, false);
   }
   
   
@@ -157,8 +206,9 @@ public class GameScreenOne extends JPanel {
         e.printStackTrace();
       }
     }
-    
   }
+  
+  
   
   /**
    * Clears the existing message and displays a new message in the text area
@@ -277,7 +327,7 @@ public class GameScreenOne extends JPanel {
   
   private static ImageIcon parseImage(String characterName){
     if (characterName.equals("Ser Alaric, Leader of the Guards")){
-      return new ImageIcon("resources/leader-of-the-gurads-x1.png");
+      return new ImageIcon("resources/leader-of-the-gurads-x2.png");
     }
     else if (characterName.equals("Master Crafter Silas")){
       return new ImageIcon("resources/master-builder-x2.png");
@@ -306,8 +356,32 @@ public class GameScreenOne extends JPanel {
     else if (characterName.equals("Dr. Elend")){
       return new ImageIcon("resources/doctor-x2.png");
     }
+    else if (characterName.equals("Fiorella, Eldorian Princess")){
+      return new ImageIcon("resources/princess-x2.png");
+    }
+    else if (characterName.equals("Vorin, Eldorian Captain")){
+      return new ImageIcon("resources/eldorian-guard-x2.png");
+    }
+    else if (characterName.equals("Cat")){
+      return new ImageIcon("resources/cat-x2.png");
+    }
+    else if (characterName.equals("The Witch")){
+      return new ImageIcon("resources/witch-x2.png");
+    }
+    else if (characterName.equals("Seraphina, Follower of Tawaretta")){
+      return new ImageIcon("resources/follower-of-tawaretta-x2.png");
+    }
+    else if (characterName.equals("Meera Faraday, Lastellan Cultivator")){
+      return new ImageIcon("resources/lastellan-cultivator-x2.png");
+    }
     else {
       return null;
+    }
+  }
+  protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    if (GamePanel.backgroundImage != null) {
+      g.drawImage(GamePanel.backgroundImage, 0, 0, GamePanel.SCREEN_WIDTH, GamePanel.SCREEN_HEIGHT, this);
     }
   }
 }

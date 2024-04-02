@@ -29,6 +29,7 @@ public class SortTheCourtButEpicVersion {
         //Runs through every scenario to see if it has a start condition and checks if that condition is met
         for (Scenario scenario : scenarioList) {
             
+            
             if ((scenario.goldStartCondition != 0 || scenario.faithStartCondition != 0 || scenario.populationStartCondition != 0 || scenario.techStartCondition != 0) && (scenario.startConditionScenarioID != null)) {
                 System.out.println("Error: resource start condition and previous scenario completed condition both present in a single scenario.");
                 System.exit(0);
