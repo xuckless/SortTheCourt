@@ -1,3 +1,5 @@
+
+
 import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
@@ -50,44 +52,44 @@ class ConsoleGame {
     return formattedText.toString();
   }
   
-    public static void StartGame(String filePath, String scenarioTxtFilePath) {
-
-      File gameSave = new File(filePath);
-      if (!gameSave.exists())
-        loadDefaultSave(filePath, "FirstStart:0\nDay:1\nGold:150\nFaith:40\nTech:1\nPopulation:150");
-
-      if (DataEditor.getDataValue("FirstStart", filePath) == 0) {
-        GameScreenOne.setMessageOne("Welcome to the game!");
-        JButton beginGame = GameScreenOne.createChoiceButton("Begin Game");
-        GameScreenOne.addChoiceButton(beginGame, a -> {
+  public static void StartGame(String filePath, String scenarioTxtFilePath) {
+    
+    File gameSave = new File(filePath);
+    if (!gameSave.exists())
+      loadDefaultSave(filePath, "FirstStart:0\nDay:1\nGold:150\nFaith:40\nTech:1\nPopulation:150");
+    
+    if (DataEditor.getDataValue("FirstStart", filePath) == 0) {
+      GameScreenOne.setMessageOne("Welcome to the game!");
+      JButton beginGame = GameScreenOne.createChoiceButton("Begin Game");
+      GameScreenOne.addChoiceButton(beginGame, a -> {
+        GameScreenOne.clearChoiceButtons();
+        GameScreenOne.setMessageOne(formatText("You awake to an abyss of nothingness all around. 'Ah, little light,' a voice called, but you could not see the speaker. 'Do not worry, little light, your reaction is normal. We're going to try the plan again. Just do not forget your task: Keep the reality on the desired path. Keep the kingdom from collapse. Are you ready to continue?'"));
+        JButton yes = GameScreenOne.createChoiceButton("Yes");
+        GameScreenOne.addChoiceButton(yes, b -> {
           GameScreenOne.clearChoiceButtons();
-          GameScreenOne.setMessageOne(formatText("You awake to an abyss of nothingness all around. 'Ah, little light,' a voice called, but you could not see the speaker. 'Do not worry, little light, your reaction is normal. We're going to try the plan again. Just do not forget your task: Keep the reality on the desired path. Keep the kingdom from collapse. Are you ready to continue?'"));
-          JButton yes = GameScreenOne.createChoiceButton("Yes");
-          GameScreenOne.addChoiceButton(yes, b -> {
-            GameScreenOne.clearChoiceButtons();
-            ConsoleGame.StartPart1(filePath, scenarioTxtFilePath, true);
-          });
-          JButton no = GameScreenOne.createChoiceButton("No");
-          GameScreenOne.addChoiceButton(no, c -> {
-            GameScreenOne.clearChoiceButtons();
-            System.exit(0);
-          });
-        });
-      } else {
-        GameScreenOne.setMessageOne("Welcome back to the game! Choose to continue, or start a new game.");
-        JButton continueGame = GameScreenOne.createChoiceButton("Continue Game");
-        GameScreenOne.addChoiceButton(continueGame, e -> {
-          GameScreenOne.clearChoiceButtons();
-          ConsoleGame.StartPart1(filePath, scenarioTxtFilePath, false);
-        });
-        JButton newGame = GameScreenOne.createChoiceButton("New Game");
-        GameScreenOne.addChoiceButton(newGame, e -> {
-          GameScreenOne.clearChoiceButtons();
-          loadDefaultSave(filePath, "FirstStart:0\nDay:1\nGold:150\nFaith:40\nTech:1\nPopulation:150");
           ConsoleGame.StartPart1(filePath, scenarioTxtFilePath, true);
         });
-      }
+        JButton no = GameScreenOne.createChoiceButton("No");
+        GameScreenOne.addChoiceButton(no, c -> {
+          GameScreenOne.clearChoiceButtons();
+          System.exit(0);
+        });
+      });
+    } else {
+      GameScreenOne.setMessageOne("Welcome back to the game! Choose to continue, or start a new game.");
+      JButton continueGame = GameScreenOne.createChoiceButton("Continue Game");
+      GameScreenOne.addChoiceButton(continueGame, e -> {
+        GameScreenOne.clearChoiceButtons();
+        ConsoleGame.StartPart1(filePath, scenarioTxtFilePath, false);
+      });
+      JButton newGame = GameScreenOne.createChoiceButton("New Game");
+      GameScreenOne.addChoiceButton(newGame, e -> {
+        GameScreenOne.clearChoiceButtons();
+        loadDefaultSave(filePath, "FirstStart:0\nDay:1\nGold:150\nFaith:40\nTech:1\nPopulation:150");
+        ConsoleGame.StartPart1(filePath, scenarioTxtFilePath, true);
+      });
     }
+  }
   
   public static void gameLost(String filePath){
     JButton continueGame = GameScreenOne.createChoiceButton("Start a New Journey!");
@@ -123,7 +125,7 @@ class ConsoleGame {
               ConsoleGame.nextPart(filepath, scenarioTxtFilePath);
               return null;
             }
-
+            
             @Override
             protected void done() {
               // Any GUI update after the background task; for example:
@@ -147,7 +149,7 @@ class ConsoleGame {
               ConsoleGame.nextPart(filepath, scenarioTxtFilePath);
               return null;
             }
-
+            
             @Override
             protected void done() {
               // Any GUI update after the background task; for example:
@@ -447,6 +449,7 @@ class ConsoleGame {
         System.out.println("All scenarios completed.");
         System.exit(0);
       }
+      GameScreenOne.appendImageInMessageOne(String.valueOf(currentScenario.character));
       
       DataEditor.changeDataValue("Gold", DataEditor.getDataValue("Gold", filePath) + currentScenario.goldConsequence, filePath);
       DataEditor.changeDataValue("Faith", DataEditor.getDataValue("Faith", filePath) + currentScenario.faithConsequence, filePath);
@@ -454,7 +457,7 @@ class ConsoleGame {
       DataEditor.changeDataValue("Tech", DataEditor.getDataValue("Tech", filePath) + currentScenario.techConsequence, filePath);
       
       if (DataEditor.getDataValue("Population", filePath) < 0) gameLost(filePath);
-
+      
       StringBuilder resources = new StringBuilder();
       resources.append("Scenario Number: " + DataEditor.getDataValue("Day", filePath));
       resources.append("\n\nGold: " + DataEditor.getDataValue("Gold", filePath));
@@ -463,7 +466,7 @@ class ConsoleGame {
       resources.append("\nTech: " + DataEditor.getDataValue("Tech", filePath));
       resources.append("\n\nAudience: " + currentScenario.character);
       GameScreenOne.setMessageTwo(String.valueOf(resources));
-
+      
       StringBuilder description = new StringBuilder(currentScenario.scenarioDescription);
       if (currentScenario.goldConsequence > 0) description.append("(Gold +" + currentScenario.goldConsequence + ")");
       if (currentScenario.goldConsequence < 0) description.append("(Gold " + currentScenario.goldConsequence + ")");
@@ -474,12 +477,12 @@ class ConsoleGame {
       if (currentScenario.techConsequence > 0) description.append("(Tech +" + currentScenario.techConsequence + ")");
       if (currentScenario.techConsequence < 0) description.append("(Tech " + currentScenario.techConsequence + ")");
       GameScreenOne.setMessageOne(formatText(String.valueOf(description)));
-
-
+      
+      
       AtomicBoolean choiceMade = new AtomicBoolean(false);
-
+      
       GameScreenOne.clearChoiceButtons(); // Clear any previous choices
-
+      
       if (currentScenario.choiceCount == 3) {
         if (currentScenario.choice1StartConditionMet) {
           JButton choice1 = GameScreenOne.createChoiceButton(currentScenario.choice1Description);
@@ -551,9 +554,9 @@ class ConsoleGame {
           break;
         }
       }
-
+      
       //String currentScenarioCharacter = currentScenario.character;
-
+      
       //SAVING DATA
       DataEditor.changeDataValue("Day", DataEditor.getDataValue("Day", filePath) + 1, filePath);
       switch (currentScenario.choiceMadeWhenCompleted) {
@@ -578,7 +581,7 @@ class ConsoleGame {
           DataEditor.changeDataValue("Tech", DataEditor.getDataValue("Tech",filePath) + currentScenario.choice3TechConsequence, filePath);
           break;
       }
-
+      
       StringBuilder resources2 = new StringBuilder();
       resources2.append("Scenario Number: " + (DataEditor.getDataValue("Day", filePath) - 1));
       resources2.append("\n\nGold: " + DataEditor.getDataValue("Gold", filePath));
@@ -587,15 +590,16 @@ class ConsoleGame {
       resources2.append("\nTech: " + DataEditor.getDataValue("Tech", filePath));
       resources2.append("\n\nAudience: " + currentScenario.character);
       GameScreenOne.setMessageTwo(String.valueOf(resources2));
-
+      GameScreenOne.appendImageInMessageOne(String.valueOf(currentScenario.character));
+      
       AtomicBoolean continueToNext = new AtomicBoolean(false);
-
+      
       JButton continueButton = GameScreenOne.createChoiceButton("Continue");
       GameScreenOne.addChoiceButton(continueButton, e -> {
         GameScreenOne.clearChoiceButtons();
         continueToNext.set(true); // Set the flag to true when a choice is made.
       });
-
+      
       while (!continueToNext.get()) {
         try {
           Thread.sleep(100); // Brief sleep to reduce CPU usage
@@ -616,7 +620,7 @@ class ConsoleGame {
         System.out.println("Error: Gold is negative.");
         System.exit(0);
       }
-
+      
       if (DataEditor.getCompletedScenarioCount(filePath) >= 100000) {
         completedPart = true;
       }
@@ -705,5 +709,5 @@ class ConsoleGame {
     } while (!choiceSelected);
 
   }*/
-  }
+}
 

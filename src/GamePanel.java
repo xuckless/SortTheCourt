@@ -135,6 +135,4 @@ public class GamePanel extends JPanel implements Runnable {
   public void switchPanels(String cardName){
     cardLayout.show(cards, cardName);
   }
-  
 }
-
