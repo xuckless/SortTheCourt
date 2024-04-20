@@ -2,22 +2,22 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main {
+  
   public static void main(String[] args) {
-    
     JFrame window = new JFrame();
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    window.setResizable(false);
-    window.setTitle("Sort The Court");
-    window.setLayout(new BorderLayout());
+    window.setMinimumSize(new Dimension(500, 600));
+    window.setResizable(true);
+    window.setTitle("TicTacToeTwo");
     
-    GamePanel gamePanel = new GamePanel();
-    window.add(gamePanel);
+    TicTacToe ticTacToe = new TicTacToe();
+    window.add(ticTacToe.inputPane);
     
     window.pack();
     
     window.setLocationRelativeTo(null);
     window.setVisible(true);
     
-    gamePanel.startGameThread();
+    ticTacToe.startThread();
   }
 }
